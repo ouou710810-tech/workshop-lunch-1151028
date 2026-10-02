@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#f7f1e7">
+  <title>主辦人管理｜捕夢網研習點餐</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="admin-body">
+  <main class="admin-panel admin-dashboard">
+    <a class="back-link" href="../">← 返回點餐頁面</a>
+    <p class="eyebrow">PRIVATE ORGANIZER VIEW</p>
+    <h1>主辦人訂單彙整</h1>
+    <p class="admin-description">公開點餐頁會遮蔽姓名；此管理頁僅允許指定主辦人信箱檢視完整訂單。</p>
+    <section id="login-panel" class="admin-login">
+      <label for="admin-email">主辦人信箱</label>
+      <input id="admin-email" type="email" autocomplete="email" placeholder="輸入已登記的主辦人信箱" required>
+      <button id="send-link" class="submit-button" type="button">寄送登入連結</button>
+      <p class="admin-setup-note">首次使用前，請先在 <a href="https://supabase.com/dashboard/project/ymovhtrgupdohlmkionc/auth/url-configuration" target="_blank" rel="noreferrer">Supabase Auth URL Configuration</a> 的 Redirect URLs 加入：<code>https://ouou710810-tech.github.io/workshop-lunch-1151028/admin/</code></p>
+      <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+    </section>
+    <section id="orders-panel" hidden>
+      <div class="admin-toolbar"><span id="signed-in-as"></span><div><button id="refresh-orders" class="secondary-button" type="button">重新整理</button><button id="download-csv" class="secondary-button" type="button">下載 CSV</button><button id="sign-out" class="secondary-button" type="button">登出</button></div></div>
+      <p id="admin-message" class="form-message" role="status" aria-live="polite"></p>
+      <div id="admin-stats" class="stats-grid"></div>
+      <div class="admin-table-wrap"><table><thead><tr><th>點餐人</th><th>主餐</th><th>更新時間</th></tr></thead><tbody id="admin-orders"></tbody></table></div>
+      <p class="admin-footnote">完整姓名只顯示於此登入管理頁。訂單可由參與者再次送出以更新口味。</p>
+    </section>
+  </main>
+  <script src="../backend-config.js"></script>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

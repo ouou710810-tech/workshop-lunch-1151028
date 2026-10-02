@@ -29,8 +29,9 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Assemble static site
         run: |
-          mkdir -p _site/assets
-          cp index.html styles.css app.js _site/
+          mkdir -p _site/assets _site/admin
+          cp index.html styles.css app.js backend-config.js _site/
+          cp admin/index.html admin/admin.js _site/admin/
           cp assets/meal-circle-*.png _site/assets/
           cp assets/seaweed-roll-*.png _site/assets/
       - name: Upload site artifact

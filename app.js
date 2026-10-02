@@ -1,29 +1,43 @@
 const MEALS = ['原味飯糰', '海苔香鬆', '泡菜飯糰', '鮪魚飯糰', '烤肉飯糰', '辣豬肉飯糰'];
-const ORDER_KEY = 'workshop-lunch-preview-orders-v1';
+const ONSITE_ID_KEY = 'workshop-lunch-onsite-id-v1';
+const BACKEND = window.WORKSHOP_BACKEND;
 const form = document.querySelector('#order-form');
 const attendee = document.querySelector('#attendee');
 const onsiteName = document.querySelector('#onsite-name');
 const message = document.querySelector('#form-message');
 
-function readOrders() {
-  try { return JSON.parse(localStorage.getItem(ORDER_KEY) || '[]'); }
-  catch { return []; }
+function onsiteId() {
+  let id = localStorage.getItem(ONSITE_ID_KEY);
+  if (!id) { id = crypto.randomUUID(); localStorage.setItem(ONSITE_ID_KEY, id); }
+  return id;
 }
-function maskName(name) {
-  const chars = [...name.trim()];
-  if (chars.length < 2) return chars[0] ? `${chars[0]}O` : '訪客';
-  return `${chars[0]}O${chars.slice(2).join('')}`;
+async function ordersRequest(action, options = {}) {
+  const headers = { apikey: BACKEND.publishableKey, Authorization: `Bearer ${BACKEND.publishableKey}` };
+  if (options.body) headers['Content-Type'] = 'application/json';
+  const response = await fetch(`${BACKEND.functionsUrl}?action=${action}`, {
+    method: options.method || 'GET', headers, body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || '連線失敗，請稍後重試。');
+  return result;
 }
-function renderOrders() {
-  const orders = readOrders();
+async function renderOrders() {
+  const count = document.querySelector('#total-count');
+  try {
+  const orders = await ordersRequest('public');
+  count.textContent = `${orders.length} 份`;
   document.querySelector('#total-count').textContent = `${orders.length} 份`;
   document.querySelector('#meal-stats').innerHTML = MEALS.map(meal => {
     const count = orders.filter(order => order.meal === meal).length;
     return `<div class="stat"><strong>${meal}</strong><span>${count} 份</span></div>`;
   }).join('');
-  document.querySelector('#public-orders').innerHTML = orders.slice().reverse().map(order =>
-    `<div class="order-row"><span>${escapeHtml(maskName(order.name))}</span><span>${escapeHtml(order.meal)}</span><time>${new Date(order.createdAt).toLocaleString('zh-TW', {hour:'2-digit',minute:'2-digit'})}</time></div>`
+  document.querySelector('#public-orders').innerHTML = orders.map(order =>
+    `<div class="order-row"><span>${escapeHtml(order.name)}</span><span>${escapeHtml(order.meal)}</span><time>${new Date(order.created_at).toLocaleString('zh-TW', {hour:'2-digit',minute:'2-digit'})}</time></div>`
   ).join('');
+  } catch (error) {
+    count.textContent = '無法同步';
+    document.querySelector('#public-orders').innerHTML = `<p class="order-row">${escapeHtml(error.message)}</p>`;
+  }
 }
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -36,7 +50,7 @@ attendee.addEventListener('change', () => {
   if (show) onsiteName.focus();
 });
 
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
   const meal = form.elements.meal.value;
   const name = attendee.value === 'onsite' ? onsiteName.value.trim() : attendee.value;
@@ -44,17 +58,22 @@ form.addEventListener('submit', event => {
     message.textContent = '請選擇姓名與一種主餐。';
     return;
   }
-  const order = {name, meal, createdAt: new Date().toISOString()};
-  const orders = readOrders();
-  const previous = orders.findIndex(item => item.name === name);
-  if (previous >= 0) orders[previous] = order;
-  else orders.push(order);
-  localStorage.setItem(ORDER_KEY, JSON.stringify(orders));
-  document.querySelector('#receipt-text').textContent = `${name}，已選擇「${meal}」。此預覽資料只保存在目前瀏覽器。`;
+  const button = form.querySelector('.submit-button');
+  button.disabled = true;
+  button.textContent = '正在送出…';
+  try {
+  await ordersRequest('submit', {method:'POST', body:{name, meal, onsiteId:attendee.value === 'onsite' ? onsiteId() : null}});
+  document.querySelector('#receipt-text').textContent = `${name}，已選擇「${meal}」。訂單已加入共用清單，公開名單會遮蔽姓名。`;
   document.querySelector('#thanks').hidden = false;
   message.textContent = '';
-  renderOrders();
+  await renderOrders();
   document.querySelector('#thanks').scrollIntoView({behavior:'smooth', block:'center'});
+  } catch (error) {
+    message.textContent = error.message;
+  } finally {
+    button.disabled = false;
+    button.innerHTML = '送出我的選擇 <span>→</span>';
+  }
 });
 
 document.querySelector('#download-card').addEventListener('click', () => {
@@ -92,3 +111,4 @@ if (location.protocol.startsWith('http')) {
   document.querySelector('#qr-placeholder').replaceChildren(qr);
 }
 renderOrders();
+window.setInterval(renderOrders, 20000);
