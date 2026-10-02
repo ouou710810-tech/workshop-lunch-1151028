@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3eb">
+  <title>非專研習・捕夢網製作｜飯糰點餐</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="preview-banner">本機模式｜點餐資料只顯示在這部裝置，不會與其他學員同步</div>
+  <header class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">115 年度教師專業成長研習</p>
+      <h1>捕夢網製作<br><span>飯糰點餐</span></h1>
+      <p class="lead">選一份喜歡的飯糰，讓研習早晨更有元氣。</p>
+      <div class="event-meta"><span>📅 115.10.28（三）</span><span>🕘 09:00–12:30</span></div>
+    </div>
+    <aside class="qr-card" aria-label="網站 QR Code">
+      <div id="qr-placeholder" class="qr-placeholder"><span>網站發布後<br>顯示 QR Code</span></div>
+      <p>掃描開啟點餐</p>
+    </aside>
+  </header>
+
+  <main>
+    <section class="menu-section" aria-labelledby="menu-title">
+      <div class="section-heading"><div><p class="eyebrow">TODAY'S MENU</p><h2 id="menu-title">挑選你的主餐</h2></div><span class="select-note">每人擇一</span></div>
+      <form id="order-form">
+        <fieldset class="menu-grid" aria-label="主餐選項">
+          <legend class="sr-only">請選擇一種飯糰</legend>
+          <label class="meal-card"><input type="radio" name="meal" value="原味飯糰" required><span class="meal-photo p1" role="img" aria-label="原味飯糰圖片"></span><span class="meal-info"><strong>原味飯糰</strong><small>蛋絲較多・加美乃滋調醬</small></span><span class="checkmark">✓</span></label>
+          <label class="meal-card"><input type="radio" name="meal" value="海苔香鬆"><span class="meal-photo p2" role="img" aria-label="海苔香鬆飯糰圖片"></span><span class="meal-info"><strong>海苔香鬆</strong><small>鬆軟口感・一吃就停不下來</small></span><span class="checkmark">✓</span></label>
+          <label class="meal-card"><input type="radio" name="meal" value="泡菜飯糰"><span class="meal-photo p3" role="img" aria-label="泡菜飯糰圖片"></span><span class="meal-info"><strong>泡菜飯糰</strong><small>偏酸微小辣・非素食</small></span><span class="checkmark">✓</span></label>
+          <label class="meal-card"><input type="radio" name="meal" value="鮪魚飯糰"><span class="meal-photo p4" role="img" aria-label="鮪魚飯糰圖片"></span><span class="meal-info"><strong>鮪魚飯糰</strong><small>加入美乃滋調配・巨美味</small></span><span class="checkmark">✓</span></label>
+          <label class="meal-card"><input type="radio" name="meal" value="烤肉飯糰"><span class="meal-photo p5" role="img" aria-label="烤肉飯糰圖片"></span><span class="meal-info"><strong>烤肉飯糰</strong><small>韓式水果烤肉醃醬・清爽無辣</small></span><span class="checkmark">✓</span></label>
+          <label class="meal-card"><input type="radio" name="meal" value="辣豬肉飯糰"><span class="meal-photo p6" role="img" aria-label="辣豬肉飯糰圖片"></span><span class="meal-info"><strong>辣豬肉飯糰</strong><small>春日特調韓式辣醬・小辣</small></span><span class="checkmark">✓</span></label>
+        </fieldset>
+        <div class="form-row">
+          <label for="attendee">點餐人</label>
+          <select id="attendee" name="attendee" required>
+            <option value="" selected disabled>請選擇姓名</option>
+            <option>怡雯</option><option>永哲</option><option>佩湘</option><option>思瑩</option><option>恩慈</option><option>育如</option><option>玉帆</option>
+            <option value="onsite">現場報名（自行填姓名）</option>
+          </select>
+          <input id="onsite-name" class="onsite-name" type="text" maxlength="30" placeholder="請填寫姓名" aria-label="現場報名姓名" hidden>
+        </div>
+        <button class="submit-button" type="submit">送出我的選擇 <span>→</span></button>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        <p class="privacy-note">送出後，公開名單會遮蔽姓名中間字。</p>
+      </form>
+    </section>
+
+    <section id="thanks" class="thanks-card" hidden>
+      <div class="thanks-icon">✦</div><div><h2>點餐已收到</h2><p id="receipt-text"></p></div>
+      <button id="download-card" class="secondary-button" type="button">下載 PNG 點餐卡</button>
+    </section>
+
+    <section class="orders-section"><div class="section-heading"><div><p class="eyebrow">THIS DEVICE</p><h2>本機訂單</h2></div><span id="total-count" class="total-count">0 份</span></div><div id="meal-stats" class="stats-grid"></div><div id="public-orders" class="public-orders"></div></section>
+  </main>
+  <footer><span>非專研習・捕夢網製作</span><span>訂單只保存在本機瀏覽器</span></footer>
+  <canvas id="order-canvas" width="900" height="1200" hidden></canvas>
+  <script src="app.js" defer></script>
+</body>
+</html>
