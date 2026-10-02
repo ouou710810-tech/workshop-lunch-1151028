@@ -3,26 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f3eb">
-  <title>非專研習・捕夢網製作｜飯糰點餐</title>
+  <meta name="theme-color" content="#f7f1e7">
+  <meta name="description" content="非專研習・捕夢網製作｜挑選一份海苔飯捲，讓研習早晨更有元氣。">
+  <title>非專研習・捕夢網製作｜海苔飯捲點餐</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="preview-banner">本機模式｜點餐資料只顯示在這部裝置，不會與其他學員同步</div>
   <header class="hero">
     <div class="hero-copy">
+      <span class="hero-stamp">一捲好料・元氣開場</span>
       <p class="eyebrow">115 年度教師專業成長研習</p>
-      <h1>捕夢網製作<br><span>飯糰點餐</span></h1>
-      <p class="lead">選一份喜歡的飯糰，讓研習早晨更有元氣。</p>
+      <h1>捕夢網製作<br><span>海苔飯捲</span></h1>
+      <p class="lead">一口米香、滿滿好料，選一份喜歡的飯捲，為研習早晨補充元氣。</p>
       <div class="event-meta"><span>📅 115.10.28（三）</span><span>🕘 09:00–12:30</span></div>
     </div>
-    <aside class="qr-card" aria-label="網站 QR Code">
-      <div id="qr-placeholder" class="qr-placeholder"><span>網站發布後<br>顯示 QR Code</span></div>
-      <p>掃描開啟點餐</p>
+    <aside class="hero-visual" aria-label="海苔飯捲照片與網站 QR Code">
+      <img class="hero-food" src="assets/seaweed-roll-platter.png" alt="切成一口大小、包著海苔與豐富餡料的飯捲">
+      <div class="photo-caption"><span>手作海苔飯捲</span><small>新鮮切片・豐富內餡</small></div>
+      <div class="qr-card" aria-label="網站 QR Code">
+        <div id="qr-placeholder" class="qr-placeholder"><span>載入 QR Code…</span></div>
+        <p>掃描開啟點餐</p>
+      </div>
     </aside>
   </header>
 
   <main>
+    <section class="food-intro" aria-label="飯捲介紹">
+      <img src="assets/seaweed-roll-wrapped.png" alt="以牛皮紙包裝的海苔飯捲，露出新鮮餡料切面" loading="lazy">
+      <div><p class="eyebrow">FRESHLY ROLLED</p><h2>看得見的好料，<br>每一口都滿足。</h2><p>海苔包裹粒粒米飯與豐富配料，切開就是繽紛的美味。選好你的口味，期待研習日一起享用！</p></div>
+    </section>
     <section class="menu-section" aria-labelledby="menu-title">
       <div class="section-heading"><div><p class="eyebrow">TODAY'S MENU</p><h2 id="menu-title">挑選你的主餐</h2></div><span class="select-note">每人擇一</span></div>
       <form id="order-form">

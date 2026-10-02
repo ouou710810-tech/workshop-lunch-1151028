@@ -32,6 +32,7 @@ jobs:
           mkdir -p _site/assets
           cp index.html styles.css app.js _site/
           cp assets/meal-circle-*.png _site/assets/
+          cp assets/seaweed-roll-*.png _site/assets/
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:

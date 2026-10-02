@@ -70,7 +70,7 @@ document.querySelector('#download-card').addEventListener('click', () => {
   ctx.fillStyle = '#fffefa'; ctx.font = '800 66px sans-serif';
   ctx.fillText('捕夢網製作', 450, 290);
   ctx.font = '500 34px sans-serif'; ctx.fillStyle = '#e3e9e1';
-  ctx.fillText('飯糰點餐卡', 450, 350);
+  ctx.fillText('海苔飯捲點餐卡', 450, 350);
   ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(150, 410); ctx.lineTo(750, 410); ctx.stroke();
   ctx.fillStyle = '#f5e9d6'; ctx.font = '500 32px sans-serif'; ctx.fillText('點餐人', 450, 510);
   ctx.fillStyle = '#fffefa'; ctx.font = '700 58px sans-serif'; ctx.fillText(name, 450, 600);
